@@ -13,7 +13,7 @@ public class BalancoTrimestral {
 		int gastosTrimestre = (gastosJaneiro + gastosFevereiro + gastosMarco);
 		
 		//Exibe os gatos do Trimestre
-		System.out.println(gastosTrimestre);
+		System.out.println(" O gasto total do trimestre foi :" + gastosTrimestre);
 		
 		
 		
