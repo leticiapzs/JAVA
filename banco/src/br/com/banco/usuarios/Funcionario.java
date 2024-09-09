@@ -58,6 +58,9 @@ public class Funcionario {
 	public void setSenha(int senha) {
 		this.senha = senha;
 	}
+	public void calcularSalario() {
+		return salario;
+	}
 
 	@Override
 	public String toString() {
