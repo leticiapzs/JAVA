@@ -1,0 +1,6 @@
+Pessoa,1,Antonio,28,101
+Pessoa,2,Leticia,28,102
+Pessoa,3,Juliane,29,103
+Serie,101,X-Files,Ficção Científica,11
+Serie,102,Breaking Bad,Drama,5
+Serie,103,Friends,Comedia,10
