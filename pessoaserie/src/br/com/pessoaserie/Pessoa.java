@@ -1,7 +1,7 @@
 package br.com.pessoaserie;
 
 public class Pessoa {
-	private int id;
+    private int id;
     private String nome;
     private int idade;
     private int serieId;
@@ -14,25 +14,22 @@ public class Pessoa {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public int getIdade() {
-        return idade;
+        return this.idade;
     }
 
     public int getSerieId() {
-        return serieId;
+        return this.serieId;
     }
 
-	@Override
-	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + ", idade=" + idade + ", serieId=" + serieId + "]";
-	}
-
-    
+    public String toString() {
+        return "Pessoa [id=" + this.id + ", nome=" + this.nome + ", idade=" + this.idade + ", serieId=" + this.serieId + "]";
+    }
 }

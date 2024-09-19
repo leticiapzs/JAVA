@@ -1,27 +1,30 @@
 package br.com.pessoaserie.relatorio;
 
+import br.com.pessoaserie.Pessoa;
+import br.com.pessoaserie.Serie;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import br.com.pessoaserie.Pessoa;
-import br.com.pessoaserie.Serie;
 
 public class Relatorio {
     private static final Logger logger = Logger.getLogger(Relatorio.class.getName());
 
     static {
-        
-        logger.setLevel(java.util.logging.Level.WARNING);
+        logger.setLevel(Level.WARNING);
+    }
+
+    public Relatorio() {
     }
 
     public static void gerarRelatorioPessoas(List<Pessoa> pessoas) {
-        logger.info("Gerando relatório de pessoas..."); 
+        logger.info("Gerando relatório de pessoas...");
         System.out.println("*******************************");
         System.out.println(" Relatório de Pessoas ");
         System.out.println("*******************************");
@@ -32,13 +35,14 @@ public class Relatorio {
             System.out.println("Série (ID): " + pessoa.getSerieId());
             System.out.println();
         }
+
         System.out.println("*******************************");
         System.out.println(" Relatório Finalizado");
         System.out.println("*******************************");
     }
 
     public static void gerarRelatorioSeries(List<Serie> series) {
-        logger.info("Gerando relatório de séries..."); 
+        logger.info("Gerando relatório de séries...");
         System.out.println("*******************************");
         System.out.println(" Relatório de Séries ");
         System.out.println("*******************************");
@@ -49,6 +53,7 @@ public class Relatorio {
             System.out.println("Temporadas: " + serie.getTemporadas());
             System.out.println();
         }
+
         System.out.println("*******************************");
         System.out.println(" Relatório Finalizado");
         System.out.println("*******************************");
@@ -56,7 +61,7 @@ public class Relatorio {
 
     public static void gerarRelatorioEmArquivo(List<Pessoa> pessoas, List<Serie> series) {
         Path diretorio = Paths.get("temp");
-        if (Files.notExists(diretorio)) {
+        if (Files.notExists(diretorio, LinkOption.NOFOLLOW_LINKS)) {
             try {
                 Files.createDirectory(diretorio);
                 logger.info("Diretório 'temp' criado.");
@@ -92,7 +97,6 @@ public class Relatorio {
             writer.write("*******************************\n");
             writer.write(" Relatório Finalizado\n");
             writer.write("*******************************\n");
-
             System.out.println("Relatório gerado e salvo em 'temp/relatorio.txt'.");
             logger.info("Relatório gerado e salvo em 'temp/relatorio.txt'.");
         } catch (IOException e) {

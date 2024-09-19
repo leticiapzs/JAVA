@@ -1,49 +1,60 @@
 package br.com.pessoaserie.principal;
 
-
-import java.util.ArrayList;  
-import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Logger;
 import br.com.pessoaserie.Pessoa;
 import br.com.pessoaserie.Serie;
 import br.com.pessoaserie.io.LeitorArquivo;
 import br.com.pessoaserie.relatorio.Relatorio;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Principal {
     private static final Logger logger = Logger.getLogger(Principal.class.getName());
-    private static List<Pessoa> pessoas = new ArrayList<>();
-    private static List<Serie> series = new ArrayList<>();
-    private static final String FILE_NAME = "temp/pessoa_serie.txt";
-    private static final String RELATORIO_FILE = "temp/relatorio.txt";
+    private static List<Pessoa> pessoas = new ArrayList<Pessoa>();
+    private static List<Serie> series = new ArrayList<Serie>();
+    @SuppressWarnings("unused")
+	private static final String FILE_NAME = "temp/pessoa_serie.txt";
+    @SuppressWarnings("unused")
+	private static final String RELATORIO_FILE = "temp/relatorio.txt";
+
+    public Principal() {
+    }
 
     public static void main(String[] args) {
-        logger.setLevel(java.util.logging.Level.WARNING); 
+        logger.setLevel(Level.WARNING);
         Scanner scanner = new Scanner(System.in);
         carregarDados();
-
         boolean running = true;
-        while (running) {
+
+        while(running) {
             exibirMenu();
             int opcao = scanner.nextInt();
             scanner.nextLine();
             switch (opcao) {
-                case 1 -> Relatorio.gerarRelatorioPessoas(pessoas);
-                case 2 -> Relatorio.gerarRelatorioSeries(series);
-                case 3 -> {
+                case 1:
+                    Relatorio.gerarRelatorioPessoas(pessoas);
+                    break;
+                case 2:
+                    Relatorio.gerarRelatorioSeries(series);
+                    break;
+                case 3:
                     Relatorio.gerarRelatorioEmArquivo(pessoas, series);
-                    exibirRelatorio(RELATORIO_FILE);
-                }
-                case 4 -> {
+                    exibirRelatorio("temp/relatorio.txt");
+                    break;
+                case 4:
                     logger.info("Encerrando o programa.");
                     running = false;
-                }
-                default -> System.out.println("Opção inválida.");
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
             }
         }
+
         scanner.close();
     }
-
 
     private static void exibirMenu() {
         System.out.println("Menu Principal:");
@@ -55,37 +66,32 @@ public class Principal {
     }
 
     private static void carregarDados() {
-        List<String> linhas = LeitorArquivo.lerArquivo(FILE_NAME);
-        for (String linha : linhas) {
+        List<String> linhas = LeitorArquivo.lerArquivo("temp/pessoa_serie.txt");
+        Iterator<String> var2 = linhas.iterator();
+
+        while(var2.hasNext()) {
+            String linha = (String)var2.next();
             String[] dados = linha.split(",");
-                       if (dados.length < 5) {
+            if (dados.length < 5) {
                 System.out.println("Linha com formato incorreto: " + linha);
-                continue;
-            }
-            if (dados[0].equals("Pessoa")) {
-                pessoas.add(new Pessoa(
-                    Integer.parseInt(dados[1]), 
-                    dados[2],                   
-                    Integer.parseInt(dados[3]), 
-                    Integer.parseInt(dados[4])  
-                ));
+            } else if (dados[0].equals("Pessoa")) {
+                pessoas.add(new Pessoa(Integer.parseInt(dados[1]), dados[2], Integer.parseInt(dados[3]), Integer.parseInt(dados[4])));
             } else if (dados[0].equals("Serie")) {
-                series.add(new Serie(
-                    Integer.parseInt(dados[1]), 
-                    dados[2],                   
-                    dados[3],                   
-                    Integer.parseInt(dados[4])  
-                ));
+                series.add(new Serie(Integer.parseInt(dados[1]), dados[2], dados[3], Integer.parseInt(dados[4])));
             }
         }
+
         logger.info("Dados carregados do arquivo.");
     }
 
     private static void exibirRelatorio(String caminhoArquivo) {
         List<String> linhas = LeitorArquivo.lerArquivo(caminhoArquivo);
-        for (String linha : linhas) {
+        Iterator<String> var3 = linhas.iterator();
+
+        while(var3.hasNext()) {
+            String linha = (String)var3.next();
             System.out.println(linha);
         }
+
     }
 }
-

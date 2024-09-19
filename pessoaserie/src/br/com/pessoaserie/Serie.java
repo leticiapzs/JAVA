@@ -6,7 +6,6 @@ public class Serie {
     private String genero;
     private int temporadas;
 
-    // Construtor
     public Serie(int id, String nome, String genero, int temporadas) {
         this.id = id;
         this.nome = nome;
@@ -14,26 +13,23 @@ public class Serie {
         this.temporadas = temporadas;
     }
 
-    // Getters
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public String getGenero() {
-        return genero;
+        return this.genero;
     }
 
     public int getTemporadas() {
-        return temporadas;
+        return this.temporadas;
     }
 
-    // Método toString
-    @Override
     public String toString() {
-        return "ID: " + id + "\nNome: " + nome + "\nGênero: " + genero + "\nTemporadas: " + temporadas + "\n";
+        return "ID: " + this.id + "\nNome: " + this.nome + "\nGênero: " + this.genero + "\nTemporadas: " + this.temporadas + "\n";
     }
 }

@@ -6,53 +6,39 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-
 public class Util {
+    private static Logger logger = Logger.getLogger(Util.class.getName());
 
-	// Cria uma instância do Logger com o nome da classe Util
-	private static Logger logger = Logger.getLogger(Util.class.getName());
+    private Util() {
+        throw new IllegalStateException("Erro ao tentar criar uma instância desta classe!");
+    }
 
-	// Construtor privado para evitar a instanciação da classe Util
-	private Util() {
-		// Lança uma exceção IllegalStateException se alguém tentar criar uma instância
-		// desta classe
-		throw new IllegalStateException("Erro ao tentar criar uma instância desta classe!");
-	}
+    public static Logger setupLogger() {
+        logger.setUseParentHandlers(false);
+        customizer();
+        ConsoleHandler customHandler = new ConsoleHandler();
+        customHandler.setFormatter(new Formatter() {
+            public String format(LogRecord rec) {
+                return rec.getMessage() + "\n";
+            }
+        });
+        logger.addHandler(customHandler);
+        return logger;
+    }
 
-	// Configura e retorna um Logger personalizado
-	public static Logger setupLogger() {
-		// Desativa o uso dos Handlers do Logger pai (se houver algum)
-		logger.setUseParentHandlers(false);
+    public static void customizer() {
+        if (logger.getHandlers().length > 0) {
+            Handler[] var3;
+            int var2 = (var3 = logger.getHandlers()).length;
 
-		customizer();
-		// Cria um ConsoleHandler personalizado
-		ConsoleHandler customHandler = new ConsoleHandler();
-		// Define um Formatter personalizado para o ConsoleHandler
-		customHandler.setFormatter(new Formatter() {
-			@Override
-			public String format(LogRecord rec) {
-				// Define o formato da mensagem de log a ser exibida no console
-				return rec.getMessage() + "\n";
-			}
-		});
+            for(int var1 = 0; var1 < var2; ++var1) {
+                Handler log = var3[var1];
+                logger.removeHandler(log);
+                if (logger.getHandlers().length == 1) {
+                    break;
+                }
+            }
+        }
 
-		// Adiciona o ConsoleHandler personalizado ao Logger
-		logger.addHandler(customHandler);
-
-		// Retorna o Logger configurado
-		return logger;
-	}
-
-	// Remove todos os Handlers extras do Logger
-	public static void customizer() {
-		if (logger.getHandlers().length > 0) {
-			for (Handler log : logger.getHandlers()) {// iteracao
-				logger.removeHandler(log);
-				if (logger.getHandlers().length == 1) {
-					break;
-				}
-			}
-		}
-	}
-
+    }
 }
